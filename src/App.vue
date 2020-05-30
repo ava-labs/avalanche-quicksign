@@ -19,8 +19,7 @@
     import * as slopes from "slopes"
 
     const MESSAGE = "I am the very model of a modern major general.";
-    import { Buffer } from 'buffer/'; // the slash forces this library over native Node.js Buffer
-
+    // import { Buffer } from 'buffer/'; // the slash forces this library over native Node.js Buffer
     let myNetworkID = 12345; //default is 2, we want to override that for our local network
     let myBlockchainID = "GJABrZ9A6UQFpwjPU8MDxDd8vuyRoDVeDAXc694wJ5t3zEkhU"; // The AVM blockchainID on this network
     let ava = new slopes.Slopes("localhost", 9650, "http", myNetworkID, myBlockchainID);
@@ -28,9 +27,9 @@
     let keychain = avm.keyChain();
 
     let bintools = slopes.BinTools.getInstance();
+    // let crypto = new slopes.CryptoHelpers();
 
-
-
+    console.log()
 
 
     export default {
@@ -49,20 +48,27 @@
 
             sign(){
                 this.isErr = false;
-                console.log(avm);
                 let pk = this.pk;
                 try{
                     let mypk = bintools.avaDeserialize(pk); //returns a Buffer
                     let addr = keychain.importKey(mypk); //returns a Buffer for the address
                     let keypair = keychain.getKey(addr);
 
+
+                    // let msgBuff = Buffer.from(crypto.sha256(MESSAGE));
+
+
                     // Sign the message with the key
-
-                    let msgBuff = Buffer.from(MESSAGE, 'utf8');
-
+                    // let msgBuff = bintools.stringToBuffer(MESSAGE);
+                    let msgBuff =Buffer.from(MESSAGE, 'utf8');
                     let signedBuff = keypair.sign(msgBuff);
 
+                    let isCorrect = keypair.verify(MESSAGE, signedBuff);
+                    console.log(isCorrect);
+
                     let res = bintools.avaSerialize(signedBuff);
+
+
                     this.result = res;
                 }catch(e){
                     this.isErr = true;
