@@ -60,11 +60,17 @@
 
                     // Sign the message with the key
                     // let msgBuff = bintools.stringToBuffer(MESSAGE);
-                    let msgBuff =Buffer.from(MESSAGE, 'utf8');
+                    let ch = new slopes.CryptoHelpers();
+                    let msgBuff =Buffer.from(ch.sha256(MESSAGE), 'utf8');
                     let signedBuff = keypair.sign(msgBuff);
 
-                    let isCorrect = keypair.verify(MESSAGE, signedBuff);
-                    console.log(isCorrect);
+                    let isCorrect = keypair.verify(ch.sha256(MESSAGE), signedBuff);
+
+                    let pubKey = keypair.recover(ch.sha256(MESSAGE), signedBuff);
+                    let addressBuff = keypair.addressFromPublicKey(pubKey);
+                    let address = bintools.avaSerialize(addressBuff);
+                    console.log("isCorrect", isCorrect);
+                    console.log("address", address, bintools.avaSerialize(addr));
 
                     let res = bintools.avaSerialize(signedBuff);
 
