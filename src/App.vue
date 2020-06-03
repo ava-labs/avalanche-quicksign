@@ -126,6 +126,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        padding: 8px 14px;
         /*padding-top: 25vh;*/
     }
 
