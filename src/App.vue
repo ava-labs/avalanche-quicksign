@@ -1,16 +1,33 @@
 <template>
     <div id="app">
+        <img src="/ava_logo.png" class="logo">
+        <h1>AVA Quicksign</h1>
         <div v-if="result" class="result">
             <label>Signed Message</label>
             <p class="signed_msg">{{result}}</p>
-            <p class="explain">Please send this signed message to ava@ava.ava</p>
+            <p class="explain">Please copy this signed message into the <a href="https://forms.gle/voK2jayGBCd7PNeg7" target="_blank">Incentivized Testnet Claims Form</a>
+                in the Signature field. </p>
+            <p>For questions, join us in Discord <a href="https://chat.avalabs.org" target="_blank">https://chat.avalabs.org</a></p>
+            <button @click="startAgain">Sign Again</button>
         </div>
-        <form @submit.prevent="sign" v-else>
-            <label>Private Key</label>
-            <input type="text" v-model="pk">
-            <p v-if="isErr" class="err">Invalid private key</p>
-            <button>Sign</button>
-        </form>
+        <div v-else class="main_page">
+            <p>Enter your private key for the destination address associated with your nodeID.</p>
+            <img src="/destination.png" class="cover">
+            <p>If you do not know this private key, invoke the
+                <span class="code">platform.exportKey</span>
+                (<a href="https://docs.ava.network/v1.0/en/api/platform/#platformexportkey" target="_blank">view in docs</a>)
+                call on your running node.
+            </p>
+            <p>Full Instructions(MEDIUM LINK I HAVE TO MAKE)</p>
+
+            <form @submit.prevent="sign">
+                <label>Private Key</label>
+                <input type="text" v-model="pk">
+                <p v-if="isErr" class="err">Invalid private key</p>
+                <button>Sign</button>
+            </form>
+        </div>
+
 
     </div>
 </template>
@@ -45,6 +62,11 @@
             console.log(slopes)
         },
         methods: {
+            startAgain(){
+                this.pk = '';
+                this.result = null;
+                this.isErr = false;
+            },
 
             sign(){
                 this.isErr = false;
@@ -86,25 +108,43 @@
 </script>
 
 <style lang="scss">
+    html, body, #app{
+        height: 100%;
+        margin: 0;
+    }
     p{
-        margin: 4px 0px;
+        margin: 15px 0px;
+        word-break: break-word;
     }
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
+        /*text-align: center;*/
         color: #2c3e50;
-        margin-top: 60px;
         display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /*padding-top: 25vh;*/
+    }
+
+    .main_page, .result{
+        width: 460px;
+        max-width: 100%;
         justify-content: center;
     }
 
+    span.code{
+        background-color: #d2d2d2;
+        color: #000;
+        padding: 3px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+    }
+
     form, .result{
-        width: 320px;
-        max-width: 100%;
-        justify-content: center;
-        margin-top: 33vh;
+        margin-top: 30px;
 
         > *{
             width: 100%;
@@ -130,9 +170,21 @@
         width: 100%;
     }
 
+    img{
+        object-fit: contain;
+    }
+
+
+    .logo{
+        width: 80px;
+    }
+    .cover{
+        width: 100%;
+    }
+
     button{
         margin: 14px 0px;
-        background-color: #2960cd;
+        background-color: #e84142;
         padding: 8px 8px;
         color: #fff;
         border-radius: 2px;
@@ -149,7 +201,9 @@
         background-color: #f2f2f2;
         border: 1px solid #ddd;
         padding: 8px 14px;
+        border-radius: 4px;
         margin-bottom: 15px;
+        font-size: 12px;
     }
 
     .err{
