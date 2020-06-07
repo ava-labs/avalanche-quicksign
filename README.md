@@ -1,7 +1,7 @@
 # AVA Quicksign
 A one page application to sign a message with your private key to prove identity.
 
-#Prequisites
+# Prequisites
 - yarn (Install instructions https://classic.yarnpkg.com/en/docs/install)
 
 ## Project setup
