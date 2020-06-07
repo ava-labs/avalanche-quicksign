@@ -7,7 +7,7 @@
             <p class="signed_msg">{{result}}</p>
             <p class="explain">Please copy this signed message into the <a href="https://forms.gle/voK2jayGBCd7PNeg7" target="_blank">Incentivized Testnet Claims Form</a>
                 in the Signature field. </p>
-            <p>For questions, join us in Discord <a href="https://chat.avalabs.org" target="_blank">https://chat.avalabs.org</a></p>
+            <p>Questions? Reach us by email <a href="mailto:ava@avalabs.org">ava@avalabs.org</a> or Discord <a href="https://chat.avalabs.org/" target="_blank">https://chat.avalabs.org</a>.</p>
             <button @click="startAgain">Sign Again</button>
         </div>
         <div v-else class="main_page">
@@ -27,7 +27,7 @@
                 <button>Sign</button>
             </form>
             
-            <p>Questions? Email <a href="mailto:ava@avalabs.org">ava@avalabs.org</a></p>
+            <p>Questions? Reach us by email <a href="mailto:ava@avalabs.org">ava@avalabs.org</a> or Discord <a href="https://chat.avalabs.org/" target="_blank">https://chat.avalabs.org</a>.</p>
             
             <p><a href="https://github.com/ava-labs/ava-quicksign" target="_blank">Source Code</a></p>
         </div>
