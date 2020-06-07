@@ -1,24 +1,15 @@
-# auth_sign
+# AVA Quicksign
+A one page application to sign a message with your private key to prove identity.
+
+#Prequisites
+- yarn (Install instructions https://classic.yarnpkg.com/en/docs/install)
 
 ## Project setup
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
+### To run locally with hot reload
 ```
 yarn serve
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

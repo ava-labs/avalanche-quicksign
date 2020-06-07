@@ -27,7 +27,7 @@
                 <button>Sign</button>
             </form>
             
-            <p>Questions? Email <a href="mailto:ava@avalabs.org"></a></p>
+            <p>Questions? Email <a href="mailto:ava@avalabs.org">ava@avalabs.org</a></p>
             
             <p><a href="https://github.com/ava-labs/ava-quicksign" target="_blank">Source Code</a></p>
         </div>
