@@ -11,14 +11,14 @@
             <button @click="startAgain">Sign Again</button>
         </div>
         <div v-else class="main_page">
-            <p>Enter your private key for the destination address associated with your nodeID.</p>
+            <p>Enter your private key for the destination address associated with your nodeID. The call to create this is seen below. The address indicated has a private key associated with it. This is the private key that should be entered into the field below.</p>
             <img src="/destination.png" class="cover">
             <p>If you do not know this private key, invoke the
                 <span class="code">platform.exportKey</span>
                 (<a href="https://docs.ava.network/v1.0/en/api/platform/#platformexportkey" target="_blank">view in docs</a>)
                 call on your running node.
             </p>
-            <p>Full Instructions(MEDIUM LINK I HAVE TO MAKE)</p>
+            <p><a href="https://medium.com/avalabs/how-to-claim-incentivized-testnet-rewards-f96b7ee3bd2d" target="_blank">Full Instructions</a></p>
 
             <form @submit.prevent="sign">
                 <label>Private Key</label>
@@ -26,6 +26,10 @@
                 <p v-if="isErr" class="err">Invalid private key</p>
                 <button>Sign</button>
             </form>
+            
+            <p>Questions? Email <a href="mailto:ava@avalabs.org"></a></p>
+            
+            <p><a href="https://github.com/ava-labs/ava-quicksign" target="_blank">Source Code</a></p>
         </div>
 
 
