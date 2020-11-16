@@ -42,9 +42,11 @@
     import { Avalanche, BinTools, Buffer } from "avalanche";
     import createHash from 'create-hash';
 
-    let myNetworkID = 12345; 
-    let myBlockchainID = "2eNy1mUFdmaxXNj1eQHUe7Np4gju9sJsEtWQ4MX3ToiNKuADed"; // The AVM blockchainID on this network
-    let avalanche = new Avalanche("localhost", 9650, "http", myNetworkID, myBlockchainID);
+    let ip = "localhost";
+    let port = 9650;
+    let protocol = "http";
+    let networkID = 12345;
+    let avalanche = new Avalanche(ip, port, protocol, networkID);
     let avm = avalanche.XChain(); //returns a reference to the AVM API used by AvalancheJS 
     let keychain = avm.keyChain();
 
