@@ -42,9 +42,7 @@
     import { Avalanche, BinTools, Buffer } from "avalanche";
     import createHash from 'create-hash';
 
-    // const MESSAGE = "I am the very model of a modern major general.";
-    // import { Buffer } from 'buffer/'; // the slash forces this library over native Node.js Buffer
-    let myNetworkID = 12345; //default is 2, we want to override that for our local network
+    let myNetworkID = 12345; 
     let myBlockchainID = "2eNy1mUFdmaxXNj1eQHUe7Np4gju9sJsEtWQ4MX3ToiNKuADed"; // The AVM blockchainID on this network
     let avalanche = new Avalanche("localhost", 9650, "http", myNetworkID, myBlockchainID);
     let avm = avalanche.XChain(); //returns a reference to the AVM API used by AvalancheJS 
@@ -76,7 +74,7 @@
 
             sign(){
                 this.isErr = false;
-                let MESSAGE = this.msg;
+                let message = this.msg;
                 let pk = this.pk;
                 try{
                     let mypk = bintools.cb58Decode(pk); //returns a Buffer
@@ -84,7 +82,7 @@
                     let addr = keypair.getAddress();
 
                     // Sign the message with the key
-                    let buff = Buffer.from(MESSAGE, "utf8");
+                    let buff = Buffer.from(message, "utf8");
                     let digest = createHash('sha256').update(buff).digest();
                     let signedBuff = keypair.sign(digest);
 
