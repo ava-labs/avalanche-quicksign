@@ -21,6 +21,8 @@
             <p><a href="https://medium.com/avalabs/how-to-claim-incentivized-testnet-rewards-f96b7ee3bd2d" target="_blank">Full Instructions</a></p>
 
             <form @submit.prevent="sign">
+                <label>Message</label>
+                <input type="text" v-model="msg">
                 <label>Private Key</label>
                 <input type="text" v-model="pk">
                 <p v-if="isErr" class="err">Invalid private key</p>
@@ -37,18 +39,18 @@
 </template>
 
 <script>
-    import * as slopes from "slopes"
+    import { Avalanche, BinTools, Buffer } from "avalanche";
+    import createHash from 'create-hash';
 
-    const MESSAGE = "I am the very model of a modern major general.";
+    // const MESSAGE = "I am the very model of a modern major general.";
     // import { Buffer } from 'buffer/'; // the slash forces this library over native Node.js Buffer
     let myNetworkID = 12345; //default is 2, we want to override that for our local network
-    let myBlockchainID = "GJABrZ9A6UQFpwjPU8MDxDd8vuyRoDVeDAXc694wJ5t3zEkhU"; // The AVM blockchainID on this network
-    let ava = new slopes.Slopes("localhost", 9650, "http", myNetworkID, myBlockchainID);
-    let avm = ava.AVM(); //returns a reference to the AVM API used by Slopes
+    let myBlockchainID = "2eNy1mUFdmaxXNj1eQHUe7Np4gju9sJsEtWQ4MX3ToiNKuADed"; // The AVM blockchainID on this network
+    let avalanche = new Avalanche("localhost", 9650, "http", myNetworkID, myBlockchainID);
+    let avm = avalanche.XChain(); //returns a reference to the AVM API used by AvalancheJS 
     let keychain = avm.keyChain();
 
-    let bintools = slopes.BinTools.getInstance();
-    // let crypto = new slopes.CryptoHelpers();
+    let bintools = BinTools.getInstance()
 
     console.log()
 
@@ -58,12 +60,12 @@
         data(){
             return {
                 pk: "",
+                msg: "",
                 isErr: false,
                 result: null,
             }
         },
         created() {
-            console.log(slopes)
         },
         methods: {
             startAgain(){
@@ -74,31 +76,27 @@
 
             sign(){
                 this.isErr = false;
+                let MESSAGE = this.msg;
                 let pk = this.pk;
                 try{
-                    let mypk = bintools.avaDeserialize(pk); //returns a Buffer
-                    let addr = keychain.importKey(mypk); //returns a Buffer for the address
-                    let keypair = keychain.getKey(addr);
-
-
-                    // let msgBuff = Buffer.from(crypto.sha256(MESSAGE));
-
+                    let mypk = bintools.cb58Decode(pk); //returns a Buffer
+                    let keypair = keychain.importKey(mypk); //returns a Buffer for the address
+                    let addr = keypair.getAddress();
 
                     // Sign the message with the key
-                    // let msgBuff = bintools.stringToBuffer(MESSAGE);
-                    let ch = new slopes.CryptoHelpers();
-                    let msgBuff =Buffer.from(ch.sha256(MESSAGE), 'utf8');
-                    let signedBuff = keypair.sign(msgBuff);
+                    let buff = Buffer.from(MESSAGE, "utf8");
+                    let digest = createHash('sha256').update(buff).digest();
+                    let signedBuff = keypair.sign(digest);
 
-                    let isCorrect = keypair.verify(ch.sha256(MESSAGE), signedBuff);
+                    let isCorrect = keypair.verify(digest, signedBuff);
 
-                    let pubKey = keypair.recover(ch.sha256(MESSAGE), signedBuff);
+                    let pubKey = keypair.recover(digest, signedBuff);
                     let addressBuff = keypair.addressFromPublicKey(pubKey);
-                    let address = bintools.avaSerialize(addressBuff);
+                    let address = bintools.cb58Encode(addressBuff);
                     console.log("isCorrect", isCorrect);
-                    console.log("address", address, bintools.avaSerialize(addr));
+                    console.log("address", address, bintools.cb58Encode(addr));
 
-                    let res = bintools.avaSerialize(signedBuff);
+                    let res = bintools.cb58Encode(signedBuff);
 
 
                     this.result = res;
